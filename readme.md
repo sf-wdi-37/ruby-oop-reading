@@ -6,7 +6,6 @@
 
 #### Encapsulation
 
-
 Objects help us build programs that model how we tend to think about the world. Instead of a bunch of variables and functions (procedural style), we can group relevant data and functions into objects, and think about them as individual, self-contained units. This grouping together of properties (data) and methods is called *encapsulation*.
 
 #### Managing Complexity
@@ -88,11 +87,13 @@ Now every car we create will have a "drive" behavior.
 car.drive
 ```
 
+
 #### Instance variable
 
 Let's give each instance of `Car` a color using instance variables.
 
 An instance variable -- which begins with the `@` symbol -- has the capability of storing data for each instance of a class.
+
 
 JavaScript lets us access variables inside objects with syntax like `obj.var` or `obj["var"]`. In Ruby, we won't be able to access instance variables directly - we'll need methods to interact with them.
 
@@ -188,9 +189,14 @@ bmw = Car.new "black"
 bmw.color
 ```
 
-**Think Break!**
+Since we don't *have* to put parentheses around method parameters when we call them, we can change a car's color with familiar syntax:
 
-How does this compare to using JavaScript constructors to create objects?
+```ruby
+# see it in action:
+bmw.color=("red")
+bmw.color="red with FLAME decals"
+# both work to change the car's color
+```
 
 
 ### `attr_*`
@@ -456,6 +462,8 @@ focus.ride_in_back
 Class variables  in Ruby don't interact with inheritance in the way many people would expect.  All subclasses share the same class variable, so **changing a class variable within a subclass changes the class variable for the base class and all other subclasses**.  This can be good when, for instance, we want to update the total `Car` count whenever a new `Pickup` is created. However, `Pickup`'s `@@count` will always be equal to the total `Car` count.  
 
 This connection can cause lots of issues if it's not intended. For example, a `Vehicle` class might have an `@@num_wheels` variable that stores a "default" number of wheels for a vehicle, say 4.  If `Boat` is later created as a subclass of `Vehicle`, and `Boat`'s `@@num_wheels` is set to 0, then all vehicles will now have their number of wheels set to 0, even `Motorcylces`, `Cars`, `EighteenWheelers` and any other instances of `Vehicle` subclasses.
+
+**For this reason, Rubyists try to avoid using class variables whenever possible!**  If you feel you must use a class variable, there's a more complex pattern to help you out: class instance varaibles.
 
 A better pattern that fits this scenario uses "class instance variables". For the "class instance variable pattern", we create an instance variable for the shared data within the parent class itself (outside of a method definition). Then, we create a class getter method within the parent class to access the class instance variable. Finally, we create a new version of the class instance variable for each subclass.  The data is no longer shared among multiple classes when we use this pattern. Let's see an example.
 
