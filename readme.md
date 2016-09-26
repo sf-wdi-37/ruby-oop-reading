@@ -542,7 +542,7 @@ class Car
 end
 ```
 
-Note that now two cars with the same speed will now be equal (`==`):
+Note that now two cars can be compared based on speed! For example, two cars with the same speed will now be equal (`==`):
 
 ```ruby
 # see it in action:
