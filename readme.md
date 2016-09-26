@@ -2,25 +2,25 @@
 
 #Introduction to Ruby OOP
 
-### Why OOP?
+## Why OOP?
 
-#### Encapsulation
+### Encapsulation
 
 Objects help us build programs that model how we tend to think about the world. Instead of a bunch of variables and functions (procedural style), we can group relevant data and functions into objects, and think about them as individual, self-contained units. This grouping together of properties (data) and methods is called *encapsulation*.
 
-#### Managing Complexity
+### Managing Complexity
 
 This is especially important as our programs get more and more complex. We can't keep all the code (and what it does) in our head at once. Instead, we often want to think just a portion of the code.
 
 Objects help us organize and think about our programs. If I'm looking at code for a Squad object, and I see it has associated *people*, and those people can dance when the squad dances, I don't need to think about or see all the code related to a person dancing. I can just think at a high level "ok, when a squad dances, all its associated people dance". This is a form of *abstraction*... I don't need to think about the details, just what's happening at a high-level.
 
-#### Ensuring Consistency
+### Ensuring Consistency
 
 One side effect of *encapsulation* (grouping data and methods into objects) is that these objects can be in control of their data. This usually means ensuring consistency of their data.
 
 Consider a bank account example... I might define a bank account object such that you can't directly change its balance. Instead, you have to use the `withdraw` and `deposit` methods. Those methods are the *interface* to the account, and they can enforce rules for consistency, such as "balance can't be less than zero".
 
-#### Modularity
+### Modularity
 
 If our objects are well-designed, then they interact with each other in well-defined ways. This allows us to refactor (rewrite) any object, and it should not cause bugs or require major changes in other areas of our programs.
 
@@ -41,7 +41,7 @@ Putting your idea in a nutshell gives you a starting place for what those object
 - Products
 
 
-### Instance vs. Class
+## Instance vs. Class
 
 An object or instance represents an abstract thing, usually with some properties (attributes) and some sort of behavior (methods). A class, in turn, can create many objects with the same set of properties (attributes) and behaviors (methods).
 
@@ -61,16 +61,16 @@ To create instances of our class, we will create a variable and assign it the re
 car = Car.new
 ```
 
-### Instance methods and instance variables
+## Adding Properties and Behaviors to Instances
 
 We are able to create instances of a `Car`, but our class is *very* simple and our instances currently don't give us much. We'd like to add properties and behaviors (attributes and methods) for our car instances.
 
-We'll start by looking at **instance methods** and **instance variables**. An instance method represents a function that is accessible on every instance of a class.
+We'll start by looking at **instance methods** for behaviors of individual cars and **instance variables** for properties or attributes of individual cars. 
 
 
-####Instance method
+### Instance Method
 
-To create an instance method, we just create a regular method inside our class definition. Here's the syntax:
+An instance method represents a function that is accessible on every instance of a class. To create an instance method, we just create a regular method inside our class definition. Here's the syntax:
 
 ```ruby
 class Car
@@ -88,16 +88,23 @@ car.drive
 ```
 
 
-#### Instance variable
+### Instance Variable
 
+An instance variable -- which begins with the `@` symbol -- has the capability of storing data for each instance of a class. 
 Let's give each instance of `Car` a color using instance variables.
 
-An instance variable -- which begins with the `@` symbol -- has the capability of storing data for each instance of a class.
-
+```ruby
+class Car
+  #instance variable
+  @color = "blue"  # we usually won't leave these just floating in class definitions!
+  # we can use it elsewhere in the class definition
+  p @color
+end
+```
 
 JavaScript lets us access variables inside objects with syntax like `obj.var` or `obj["var"]`. In Ruby, we won't be able to access instance variables directly - we'll need methods to interact with them.
 
-In order to assign (set) instance variables, we'll need a *setter* method for each variable we want to change from outside the class definition.  In order to access (get) instance variables, we will need a getter method for each instance variable that we want to expose outside the class.  
+In order to assign (set) instance variables, we'll need a *setter* method for each variable we want to change from outside the class definition.  In order to access (get) instance variables, we will need a *getter* method for each instance variable that we want to expose outside the class.  
 
 Let's look at an example.
 
@@ -130,7 +137,7 @@ car_three.color
 Every time an instance of `Car` is assigned a color, it will have its *own* instance variable named `@color`.
 
 
-Since we don't *have* to put parentheses around method parameters when we call them, we can change a car's color with familiar syntax:
+Note: since we don't *have* to put parentheses around method parameters when we call them, we can change a car's color with familiar syntax:
 
 ```ruby
 # see it in action:
@@ -199,7 +206,7 @@ bmw.color="red with FLAME decals"
 ```
 
 
-### `attr_*`
+### methods: `attr_reader`, `attr_writer`, `attr_accessor`
 
 If we add more methods to our class, we will start to notice a lot of repetition:
 
@@ -300,11 +307,15 @@ end
 
 
 
-### Class Methods, Class Variables, and `self`
+## Class Methods, Class Variables, and `self`
 
-Now, there may be moments where we want to get or set properties and behaviors that relate to all instances of a class, as a group. In this case, we need to explore class methods and class variables.
+Now, there may be moments where we want to get or set properties and behaviors that relate to the class itself or to all instances of a class, as a group. In this case, we need to explore class methods and class variables.
 
-Class methods and class variables are used when data pertains to more than just an instance of a class. Let's imagine that we want to keep count of all cars that were instantiated. We use a class variable, indicated by `@@`.
+Class methods and class variables are used when data pertains to more than just an instance of a class.
+
+### Class Variable 
+
+Let's imagine that we want to keep count of all cars that were instantiated. We use a class variable, indicated by `@@`.
 
 
 ```ruby
@@ -319,6 +330,8 @@ class Car
 end
 
 ```
+
+### Class Methods with `self`
 
 Adding the class variable was easy enough.  Next, we'll define a getter for it using the keyword `self`.  If you place the word `self` next to a method name, the method is used on the class instead of on any particular instance of the class.
 
@@ -493,7 +506,7 @@ Ruby "modules" group together related information (attributes and methods).  The
   * "mixins": extra methods that can be added into classes without influencing the inheritance tree
 
 
-#### Namespacing
+### Namespacing
 
 A commonly used built-in module is `Math`. It encapsulates methods for mathematical concepts like [logarithms](http://ruby-doc.org/core-2.3.0/Math.html#method-c-log) and [square roots](http://ruby-doc.org/core-2.3.0/Math.html#method-c-sqrt) alongside [constants for e and pi](http://ruby-doc.org/core-2.3.0/Math.html#constants-list).  Note how we access the `Math` module's constants with the `::` operator:
 
@@ -503,7 +516,7 @@ puts Math::PI
 
 The `::` operator has a number of uses related to namespacing. You can think of it as a way to open up a namespace provided by a class or module (like `Math`) and reach inside for a constant (like `PI`).  You'll see this in Rails!
 
-#### Mixins
+### Mixins
 
 Check out the first example in Ruby's [documentation for `modules`](http://ruby-doc.org/core-2.3.0/Module.html) to see how you'd `include` one as a mixin.  You can `include` a module in another module or in a class.  One built-in module that's commonly mixed into classes is [`Comparable`](http://ruby-doc.org/core-2.3.0/Comparable.html).
 
@@ -544,3 +557,9 @@ car_a.accelerate(20)
 car_a > car_b
 # => true
 ```
+
+## Reflection Questions
+
+1. What is the difference between an instance and a class? Can you think of an analogy for this?  
+1. In your own words, what are some benefits of object oriented programming?  
+1. What are two questions you have about object oriented design or the syntax for object oriented program in Ruby?
